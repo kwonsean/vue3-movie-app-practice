@@ -1,5 +1,8 @@
 # Vue3 템플릿 with Webpack
 
+## 강의 레포지토리 링크
+- https://github.com/ParkYoungWoong/vue3-movie-app
+
 ## Versions
 
 - [Default](https://github.com/ParkYoungWoong/vue3-webpack-template/tree/master)<br>

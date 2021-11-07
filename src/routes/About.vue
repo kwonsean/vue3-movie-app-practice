@@ -1,3 +1,3 @@
 <template>
-  <RouterView />
+  <h1>ABOUT!</h1>
 </template>

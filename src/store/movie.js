@@ -8,7 +8,8 @@ export default {
   state:  () => ({ 
     movies: [],
     message: 'Search for the movei title!',
-    loading: false 
+    loading: false,
+    theMovie: {} 
   }),
   // computed를 의미함
   getters: {
@@ -70,17 +71,40 @@ export default {
      }
      finally {
       context.commit('updateState', {
+        theMovie: {},
         loading: false
       })
      }
+    },
+    async searchMovieWidthId(context, payload) {
+      if (context.state.loading) return // 중복 입력 방지
+      context.commit('updateState', {
+        loading: true
+      })
+      try {
+        const res = await _fetchMovie(payload)
+        context.commit('updateState', {
+          theMovie: res.data
+        })
+      } catch(error){
+        context.commit('updateState', {
+          theMovie: {}
+        })
+      } finally {
+        context.commit('updateState',{
+          loading: false
+        })
+      }
     }
   }
 }
 
 function _fetchMovie(payload) {
-  const { title, type, year, page} = payload
+  const { title, type, year, page, id} = payload
   const OMDB_API_KEY = '8648bbdc'
-  const url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=${page}`
+  const url = id 
+  ? `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${id}`
+  : `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=${page}`
 
   return new Promise((resolve, reject) => {
     axios.get(url)

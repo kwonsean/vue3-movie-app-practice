@@ -76,7 +76,7 @@ export default {
       })
      }
     },
-    async searchMovieWidthId(context, payload) {
+    async searchMovieWithId(context, payload) {
       if (context.state.loading) return // 중복 입력 방지
       context.commit('updateState', {
         loading: true

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { reject } from 'lodash'
 import _uniqBy from 'lodash/uniqBy'
 
 export default {
@@ -31,10 +32,11 @@ export default {
   // 비동기로 처리 됨
   actions: {
     async searchMovies(context, payload) {
-      const { title, type, number ,year} = payload
-      const OMDB_API_KEY = '8648bbdc'
-
-      const res = await axios.get(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=1`)
+     try{
+      const res = await _fetchMovie({
+        ...payload,
+        page: 1
+      })
       const { Search, totalResults } = res.data
       context.commit('updateState', {
         movies: _uniqBy(Search, 'imdbID')
@@ -44,14 +46,43 @@ export default {
       // 추가 요청
       if (pageLength > 1){
         for(let page = 2; page <= pageLength; page += 1){
-          if(page > (number / 10)) break
-          const res = await axios.get(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=${page}`)
+          if(page > (payload.number / 10)) break
+          const res = await _fetchMovie({
+            ...payload,
+            page
+          })
           const { Search } = res.data
           context.commit('updateState', {
             movies: [...context.state.movies, ..._uniqBy(Search, 'imdbID')]
           })
         }
       }
+     }
+     catch (message) {
+       context.commit('updateState', {
+         movies: [],
+         message
+       })
+     }
     }
   }
+}
+
+function _fetchMovie(payload) {
+  const { title, type, year, page} = payload
+  const OMDB_API_KEY = '8648bbdc'
+  const url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=${page}`
+
+  return new Promise((resolve, reject) => {
+    axios.get(url)
+      .then(res => {
+        if(res.data.Error) {
+          reject(res.data.Error)
+        }
+        resolve(res)
+      })
+      .catch(err => {
+        reject(err.message)
+      })
+  })
 }

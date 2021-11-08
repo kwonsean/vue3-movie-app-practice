@@ -11,11 +11,20 @@
         <div class="skeleton etc"></div>
       </div>
     </div>
+    <Loader
+      :size="5"
+      :z-index="9"
+      :fixed="true" />
   </div>
 </template>
 
 <script>
+import Loader from '~/components/Loader.vue'
+
 export default {
+  components:{
+    Loader
+  },
   created() {
     this.$store.dispatch('movie/searchMovieWithId', {
       id: this.$route.params.id

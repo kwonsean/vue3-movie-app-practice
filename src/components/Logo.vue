@@ -3,7 +3,7 @@
     to="/"
     class="logo">
     <span>OMDbAPI</span>.COM
-  </routerlink>
+  </Routerlink>
 </template>
 
 <style lang="scss" scoped>

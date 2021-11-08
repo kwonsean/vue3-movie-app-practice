@@ -5,7 +5,7 @@
       height: `${size}rem`, 
       zIndex: zIndex,
     }"
-    :class="{ absoulte: absoulte, fixed: fixed }"
+    :class="{ absolute: absolute, fixed: fixed }"
     class="spinner-border text-primary"></div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
       type: Number,
       default: 2
     },
-    absoulte: {
+    absolute: {
       type: Boolean,
       default: false
     },

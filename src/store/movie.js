@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { reject } from 'lodash'
 import _uniqBy from 'lodash/uniqBy'
 
 export default {

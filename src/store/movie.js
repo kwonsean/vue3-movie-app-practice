@@ -7,7 +7,7 @@ export default {
   // data를 의미함
   state:  () => ({ 
     movies: [],
-    message: '',
+    message: 'Search for the movei title!',
     loading: false 
   }),
   // computed를 의미함
@@ -31,6 +31,11 @@ export default {
   // 비동기로 처리 됨
   actions: {
     async searchMovies(context, payload) {
+      if (context.state.loading) return // 중복 입력 방지
+      context.commit('updateState', {
+        message: '',
+        loading: true
+      })
      try{
       const res = await _fetchMovie({
         ...payload,
@@ -62,6 +67,11 @@ export default {
          movies: [],
          message
        })
+     }
+     finally {
+      context.commit('updateState', {
+        loading: false
+      })
      }
     }
   }

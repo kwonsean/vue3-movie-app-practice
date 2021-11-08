@@ -22,7 +22,11 @@
       class="movie-details">
       <div
         :style="{backgroundImage: `url(${requestDiffSizeImage(theMovie.Poster)})`}"
-        class="poster"></div>
+        class="poster">
+        <loader 
+          v-if="imageLoading"
+          absolute />
+      </div>
       <div class="specs">
         <div class="title">
           {{ theMovie.Title }}
@@ -80,6 +84,11 @@ export default {
       return this.$store.state.movie.loading
     }
   },
+  data(){
+    return{
+      imageLoading: true
+    }
+  },
   created() {
     this.$store.dispatch('movie/searchMovieWithId', {
       id: this.$route.params.id
@@ -87,7 +96,16 @@ export default {
   },
   methods: {
     requestDiffSizeImage(url, size = 700) {
-      return url.replace('SX300', `SX${size}`)
+      if(!url || url === 'N/A') {
+        this.imageLoading = false
+        return ''
+      }
+      const src = url.replace('SX300', `SX${size}`)
+      this.$loadImage(src)
+      .then(() => {
+        this.imageLoading = false
+      })
+      return src
     }
   }
 }
@@ -138,6 +156,7 @@ export default {
   display: flex;
   color: $gray-600;
   .poster{
+    position: relative;
     flex-shrink: 0;
     width: 500px;
     height: 500px * 3 / 2;

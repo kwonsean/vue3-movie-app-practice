@@ -7,6 +7,9 @@ import NotFound from './NotFound.vue'
 export default createRouter({
   // Hash, History 모드 설정 (현재는 Hash 모드)
   history: createWebHashHistory(),
+  scrollBehavior() {
+    return {top: 0, left: 0}
+  },
   // pages
   routes: [
     {

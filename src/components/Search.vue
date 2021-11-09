@@ -4,7 +4,7 @@
       v-model="title" 
       class="form-control"
       type="text" 
-      placeholder="Search for Movies, Series $ more" 
+      placeholder="Search for Movies, Series & more" 
       @keyup.enter="apply" />
     <div class="selects">
       <select

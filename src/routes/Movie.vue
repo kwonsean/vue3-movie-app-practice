@@ -224,7 +224,7 @@ export default {
       margin-bottom: 40px;
     }
   }
-  @include media-breakpoint-down(xmd) {
+  @include media-breakpoint-down(md) {
     .specs{
       .title {
         font-size: 50px

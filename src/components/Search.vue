@@ -77,6 +77,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~/scss/main";
 .container{
   display: flex;
   > * { // 전체 자식 요소 선택
@@ -102,5 +103,23 @@ export default {
     font-weight: 700;
     flex-shrink: 0; // 크기가 지정된 너비보다 줄어들지 않도록
   }
+  @include media-breakpoint-down(lg){
+    display: block;
+    input{
+    margin-right: 0;
+    margin-bottom: 10px;
+    }
+    .selects{
+      margin-right: 0;
+      margin-bottom: 10px;
+      select{
+        width: 100%;
+      }
+    }
+    .btn {
+      width: 100%;
+    }
+  }
 }
+
 </style>
